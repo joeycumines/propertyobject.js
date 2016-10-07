@@ -344,5 +344,24 @@ describe('propertyobject', function(){
                 assert.strictEqual(prop.value, null);
             });
         });
+        describe('logs', function(){
+            it('should default to an empty array', function(){
+                var prop = new propertyobject.PropertyObject();
+                assert.deepStrictEqual(prop.logs, []);
+            });
+            it('should throw a error if you try to set it', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                var did = null;
+                try {
+                    prop.logs = ['test'];
+                    did = false;
+                } catch(e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                assert.deepStrictEqual(prop.logs, []);
+            });
+        });
     });
 });
