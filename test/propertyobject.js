@@ -395,17 +395,23 @@ describe('propertyobject', function(){
             it('should be able to log strings', function(){
                 var prop = new propertyobject.PropertyObject();
                 prop.log('test');
+                var time = Date.now();
                 assert.strictEqual(prop.logs.length, 1);
                 assert.strictEqual(prop.logs[0]['message'], 'test');
+                assert.strictEqual(prop.logs[0]['timestamp'], time);
                 prop.log('message 2');
+                time = Date.now();
                 assert.strictEqual(prop.logs.length, 2);
                 assert.strictEqual(prop.logs[0]['message'], 'test');
                 assert.strictEqual(prop.logs[1]['message'], 'message 2');
+                assert.strictEqual(prop.logs[1]['timestamp'], time);
                 prop.log('message 3 '+true);
+                time = Date.now();
                 assert.strictEqual(prop.logs.length, 3);
                 assert.strictEqual(prop.logs[0]['message'], 'test');
                 assert.strictEqual(prop.logs[1]['message'], 'message 2');
                 assert.strictEqual(prop.logs[2]['message'], 'message 3 '+true);
+                assert.strictEqual(prop.logs[2]['timestamp'], time);
             });
             it('should fail if you try to log a boolean (true)', function(){
                 var prop = new propertyobject.PropertyObject();
@@ -418,6 +424,40 @@ describe('propertyobject', function(){
                 }
                 assert.strictEqual(did, true);
                 assert.deepStrictEqual(prop.logs, []);
+            });
+        });
+        describe('#serialize()', function(){
+            it('should serialize correctly', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.key = 'key';
+                prop.value = 1;
+                prop.validator = propertyobject.validators.IS_INCREMENTED_BY_ONE;
+                prop.display = propertyobject.displays.GET_KEY_STRING;
+                prop.log('test');
+                var time = Date.now();
+                var obj = prop.serialize();
+                //Strip from obj as we check
+                assert.strictEqual(obj.editable, prop.editable);
+                delete obj.editable;
+                assert.strictEqual(obj.key, prop.key);
+                delete obj.key;
+                assert.strictEqual(obj.value, prop.value);
+                delete obj.value;
+                assert.strictEqual(obj.validator, prop.validator);
+                delete obj.validator;
+                assert.strictEqual(obj.display, prop.display);
+                delete obj.display;
+                assert.strictEqual(obj.logs.length, 1);
+                assert.strictEqual(obj.logs[0]['timestamp'], prop.logs[0]['timestamp']);
+                assert.strictEqual(obj.logs[0]['message'], prop.logs[0]['message']);
+                assert.strictEqual(obj.logs[0]['timestamp'], time);
+                assert.strictEqual(obj.logs[0]['message'], 'test');
+                delete obj.logs;
+                for(var k in obj){
+                    if(obj.hasOwnProperty(k))
+                        assert(false);
+                }
             });
         });
     });
