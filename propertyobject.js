@@ -283,7 +283,7 @@ propertyobject.PropertyObject = function(serialized){
     };
 };
 /**
-    Serialize the object.
+Serialize the object.
 */
 propertyobject.PropertyObject.prototype.serialize = function(){
     var result = {};
@@ -294,6 +294,12 @@ propertyobject.PropertyObject.prototype.serialize = function(){
     result.display = this.display;
     result.logs = this.logs;
     return result;
+};
+/**
+toString override, JSON.stringify(this.serialize()).
+*/
+propertyobject.PropertyObject.prototype.toString = function(){
+    return JSON.stringify(this.serialize());
 };
 
 

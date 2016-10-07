@@ -460,5 +460,11 @@ describe('propertyobject', function(){
                 }
             });
         });
+        describe('#toString()', function(){
+            it('should toString correctly', function(){
+                var prop = new propertyobject.PropertyObject();
+                assert.strictEqual(prop.toString(), JSON.stringify(prop.serialize()));
+            });
+        });
     });
 });
