@@ -22,9 +22,9 @@ PropertyObject:
     value:
       description: |
         The value of the field currently, can be any valid type.
-    validation:
+    validator:
       description: |
-        The kind of validation used by this property. Refer to the docs.
+        The kind of validator used by this property. Refer to the docs.
       type: string
     editable:
       description: |
@@ -71,10 +71,10 @@ If editable is false, then setting value will fail with an exception.
 
 ### value
 The property value can be get and set, and is validated as part of the set process. The type of
-validation depends on the value of the validation field.
+validator depends on the value of the validator field.
 
-### validation
-The property validation is a key, indicating the type of validation that is used for the value field.
+### validator
+The property validator is a key, indicating the type of validator that is used for the value field.
 The valid types are explained further down.
 
 ### display
@@ -111,7 +111,7 @@ var propertyobject = require('propertyobject');
 var prop = new propertyobject.PropertyObject(serializedObjectFromDatabase());
 ```
 
-## Using validation and display
+## Using validator and display
 Validation and display are keys that refer to methods that are part of the library, or loaded in. They will
 throw a new Error if you attempt to set them to a key that doesnt exist.
 
@@ -121,7 +121,7 @@ This validator will always pass.
 #### is.*
 Any validator string starting with is. will automatically be run on https://github.com/arasatasaygin/is.js
 config methods are, for obvious reasons, excluded from this. These will still fail to set if the
-method doesn't exist. The method signature in the validation string will be run with with the new value
+method doesn't exist. The method signature in the validator string will be run with with the new value
 as the only parameter, for that reason the is.all.* and is.any.* interfaces may not work correctly.
 
 #### Accessing
@@ -132,7 +132,7 @@ var propertyobject = require('propertyobject');
 
 //Get a property from the database and set its validator to default
 var prop = new propertyobject.PropertyObject(serializedObjectFromDatabase());
-prop.validation = propertyobject.validators.DEFAULT;
+prop.validator = propertyobject.validators.DEFAULT;
 //Write out here
 ```
 
@@ -171,9 +171,9 @@ var prop = new propertyobject.PropertyObject();
 prop.value = 1;
 
 //these should pass / not throw exceptions
-prop.validation = propertyobject.validators.IS_INCREMENTED_BY_ONE;
+prop.validator = propertyobject.validators.IS_INCREMENTED_BY_ONE;
 
-assert.equal(prop.validation, 'IS_INCREMENTED_BY_ONE');
+assert.equal(prop.validator, 'IS_INCREMENTED_BY_ONE');
 prop.value = 2;
 assert.equal(prop.value, 2);
 
