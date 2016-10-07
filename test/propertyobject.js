@@ -372,6 +372,19 @@ describe('propertyobject', function(){
                 assert.strictEqual(prop.value, null);
             });
         });
+        describe('#runDisplay()', function(){
+            it('should return serialize by default', function(){
+                var prop = new propertyobject.PropertyObject();
+                assert.strictEqual(prop.runDisplay().toString(), prop.serialize().toString());
+            });
+            it('should work correctly with GET_KEY_STRING', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.display = propertyobject.displays.GET_KEY_STRING;
+                prop.key = 'the key string';
+                assert.strictEqual(prop.runDisplay(), 'the key string');
+            });
+        });
         describe('logs', function(){
             it('should default to an empty array', function(){
                 var prop = new propertyobject.PropertyObject();
