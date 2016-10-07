@@ -1,0 +1,31 @@
+{
+  "name": "propertyobject",
+  "version": "0.0.1",
+  "description": "Boilerplate js framework for mutable options with logged state changes and validated values.",
+  "main": "propertyobject.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeycumines/propertyobject.js.git"
+  },
+  "keywords": [
+    "properties",
+    "settings",
+    "boilerplate",
+    "javascript"
+  ],
+  "author": "Joseph Cumines <joeycumines@gmail.com> (http://joeycumines.me)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joeycumines/propertyobject.js/issues"
+  },
+  "homepage": "https://github.com/joeycumines/propertyobject.js#readme",
+  "devDependencies": {
+    "mocha": "^3.1.0"
+  },
+  "dependencies": {
+    "is_js": "^0.9.0"
+  }
+}
