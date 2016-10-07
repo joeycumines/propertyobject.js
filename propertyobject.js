@@ -266,7 +266,27 @@ propertyobject.PropertyObject = function(serialized){
             throw new Error('You cannot set the logs directly, use PropertyObject.log(message).');
         }
     });
+    
+    /**
+        Logs a new message to the logsValue array.
+        
+        Throws a error if message is not a string.
+    */
+    this.log = function(message){
+        if (is.not.string(message)){
+            throw new Error('Message must be a string: '+message);
+        }
+        var l = {};
+        l.timestamp = Date.now();
+        l.message = message;
+        logsValue.push(l);
+    };
 };
+/**
+    Serialize the object.
+*/
+
+
 
 /*
 -----------------------------------------------------------------
