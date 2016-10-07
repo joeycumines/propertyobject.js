@@ -458,6 +458,163 @@ describe('propertyobject', function(){
                     if(obj.hasOwnProperty(k))
                         assert(false);
                 }
+                
+                //check it keeps all the values
+                assert.strictEqual((new propertyobject.PropertyObject(prop.serialize())).toString(), prop.toString());
+                //try without serializing
+                assert.strictEqual((new propertyobject.PropertyObject(prop)).toString(), prop.toString());
+            });
+            it('should serialize the default correctly', function(){
+                var checkDefaults = function(obj){
+                    assert.strictEqual(obj.key, null);
+                    assert.strictEqual(obj.value, null);
+                    assert.strictEqual(obj.validator, 'DEFAULT');
+                    assert.strictEqual(obj.display, 'DEFAULT');
+                    assert(is.array(obj.logs));
+                    assert.strictEqual(obj.logs.length, 0);
+                    assert.strictEqual(obj.editable, false);
+                };
+                
+                var prop = new propertyobject.PropertyObject();
+                checkDefaults(prop);
+                checkDefaults(prop.serialize());
+                checkDefaults(new propertyobject.PropertyObject(prop));
+                checkDefaults((new propertyobject.PropertyObject(prop)).serialize());
+                checkDefaults(new propertyobject.PropertyObject(prop.serialize()));
+                checkDefaults((new propertyobject.PropertyObject(prop.serialize())).serialize());
+            });
+            it('should error if we try to serialize with bad input', function(){
+                //bad logs
+                var serial = (new propertyobject.PropertyObject()).serialize();
+                serial.logs = {};
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing key
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.key;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing value
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.value;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing validator
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.validator;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing display
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.display;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing editable
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.editable;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //missing logs
+                serial = (new propertyobject.PropertyObject()).serialize();
+                delete serial.logs;
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //logs with bad message 1
+                serial = (new propertyobject.PropertyObject()).serialize();
+                serial.logs.push({});
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //logs with bad message 2
+                serial = (new propertyobject.PropertyObject()).serialize();
+                serial.logs.push({'message': 'test'});
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //logs with bad message 3
+                serial = (new propertyobject.PropertyObject()).serialize();
+                serial.logs.push({'timestamp': 1});
+                var did = null;
+                try{
+                    new propertyobject.PropertyObject(serial);
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                
+                //logs with bad message 4
+                serial = (new propertyobject.PropertyObject()).serialize();
+                serial.logs.push({'message': 'test', 'timestamp': -1});
+                var did = null;
+                try{
+                    console.dir((new propertyobject.PropertyObject(serial)).toString());
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
             });
         });
         describe('#toString()', function(){

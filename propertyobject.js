@@ -281,6 +281,40 @@ propertyobject.PropertyObject = function(serialized){
         l.message = message;
         logsValue.push(l);
     };
+    
+    //Load the serialized object
+    if (is.object(serialized) && is.not.array(serialized)){
+        //if is missing any fields, or logs isnt an array, then throw a error.
+        if (!serialized.hasOwnProperty('key') || !serialized.hasOwnProperty('value')
+            || !serialized.hasOwnProperty('validator') || !serialized.hasOwnProperty('editable')
+            || !serialized.hasOwnProperty('display') || !serialized.hasOwnProperty('logs')
+            || is.not.array(serialized.logs)){
+            throw new Error('Serialized PropertyObject was not valid: missing propery or malformed logs.');
+        }
+        
+        //Validate that all items in serialized.logs are valid log items
+        for (var x = 0; x < serialized.logs.length; x++){
+            var item = serialized.logs[x];
+            //must be not array, object, have message, message be string, have timestamp, be int > 0
+            if (is.array(item) || is.not.object(item)
+                || !item.hasOwnProperty('message') || is.not.string(item.message)
+                || !item.hasOwnProperty('timestamp') || is.not.integer(item.timestamp)
+                || item.timestamp < 0){
+                throw new Error('Invalid log item: '+item);
+            }
+        }
+        
+        this.editable = true;
+        
+        //we set them in a order unlikely to cause errors.
+        this.value = deepCopy(serialized.value);
+        this.key = deepCopy(serialized.key);
+        this.validator = deepCopy(serialized.validator);
+        this.display = deepCopy(serialized.display);
+        //logs get set directly, thats why we checked it was an array / had valid values.
+        logsValue = deepCopy(serialized.logs);
+        this.editable = deepCopy(serialized.editable);
+    }
 };
 /**
 Serialize the object.
