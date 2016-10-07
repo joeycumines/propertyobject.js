@@ -11,7 +11,10 @@ Properties are also read only.
 */
 var _validators = {};
 var _validatorMethods = {};
+//We don't define writable in the descriptor because we define get
 Object.defineProperty(propertyobject, 'validators', {
+    enumerable: false,
+    configurable: false,
     get: function(){
         return _validators;
     }
@@ -31,9 +34,15 @@ propertyobject.addValidator = function(name, method){
         throw new Error('The given method was not a function: '+method);
     //Add to _validators and _validatorMethods
     Object.defineProperty(_validators, name, {
+        enumerable: false,
+        configurable: false,
+        writable: false,
         value: name
     });
     Object.defineProperty(_validatorMethods, name, {
+        enumerable: false,
+        configurable: false,
+        writable: false,
         value: method
     });
 };
@@ -100,9 +109,15 @@ propertyobject.addDisplay = function(name, method){
         throw new Error('The given method was not a function: '+method);
     //Add to _displays and _displayMethods
     Object.defineProperty(_displays, name, {
+        enumerable: false,
+        configurable: false,
+        writable: false,
         value: name
     });
     Object.defineProperty(_displayMethods, name, {
+        enumerable: false,
+        configurable: false,
+        writable: false,
         value: method
     });
 };
@@ -137,7 +152,30 @@ Adds the default displays.
 /**
 PropertyObject definition, as per readme spec.
 */
-
+propertyobject.PropertyObject = function(){
+    Object.defineProperty(this, 'key', {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+    });
+    var editableValue = false;
+    Object.defineProperty(this, 'editable', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return editableValue;
+        },
+        set: function(value){
+            if (is.boolean(value)){
+                editableValue = value;
+            } else {
+                throw new Error('Unable to set editable to something other then a boolean: '+value);
+            }
+        }
+    });
+    
+};
 
 /*
 -----------------------------------------------------------------

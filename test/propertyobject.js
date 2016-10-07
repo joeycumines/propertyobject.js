@@ -45,4 +45,44 @@ describe('propertyobject', function(){
             assert.equal(propertyobject.displays.DEFAULT, 'DEFAULT');
         });
     });
+    describe('PropertyObject', function(){
+        describe('key', function(){
+            it('should be set to null by default', function(){
+                var prop = new propertyobject.PropertyObject();
+                assert(prop.hasOwnProperty('key'));
+                assert.equal(prop.key, null);
+            });
+            it('should be able to be set to a string', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.key = 'TESTING VALUE';
+                assert.equal(prop.key, 'TESTING VALUE');
+            });
+        });
+        describe('editable', function(){
+            it('should be false by default', function(){
+                var prop = new propertyobject.PropertyObject();
+                assert(prop.hasOwnProperty('editable'));
+                assert.equal(prop.editable, false);
+            });
+            it('should fail with exception when set to 1', function(){
+                var prop = new propertyobject.PropertyObject();
+                var did = null;
+                try {
+                    prop.editable = 1;
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert(did);
+                assert.equal(prop.editable, false);
+            });
+            it('should be able to be set to true then to false', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                assert(prop.editable);
+                prop.editable = false;
+                assert(!prop.editable);
+            });
+        });
+    });
 });
