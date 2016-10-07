@@ -363,5 +363,34 @@ describe('propertyobject', function(){
                 assert.deepStrictEqual(prop.logs, []);
             });
         });
+        describe('#log()', function(){
+            it('should be able to log strings', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.log('test');
+                assert.strictEqual(prop.logs.length, 1);
+                assert.strictEqual(prop.logs[0]['message'], 'test');
+                prop.log('message 2');
+                assert.strictEqual(prop.logs.length, 2);
+                assert.strictEqual(prop.logs[0]['message'], 'test');
+                assert.strictEqual(prop.logs[1]['message'], 'message 2');
+                prop.log('message 3 '+true);
+                assert.strictEqual(prop.logs.length, 3);
+                assert.strictEqual(prop.logs[0]['message'], 'test');
+                assert.strictEqual(prop.logs[1]['message'], 'message 2');
+                assert.strictEqual(prop.logs[2]['message'], 'message 3 '+true);
+            });
+            it('should fail if you try to log a boolean (true)', function(){
+                var prop = new propertyobject.PropertyObject();
+                var did = null;
+                try {
+                    prop.log(true);
+                    did = false;
+                } catch(e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                assert.deepStrictEqual(prop.logs, []);
+            });
+        });
     });
 });
