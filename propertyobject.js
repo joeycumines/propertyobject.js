@@ -68,7 +68,7 @@ propertyobject.addValidators = function(prefix, obj){
 Adds the default validators.
 */
 (function(){
-    propertyobject.addValidator('DEFAULT', function(){
+    propertyobject.addValidators('DEFAULT', function(){
         return true;
     });
     //import members of "is" as validators, excluding setRegexp and setNamespace
@@ -78,7 +78,20 @@ Adds the default validators.
             temp[k] = is[k];
         }
     }
-    propertyobject.addValidators('is', temp);
+    //propertyobject.addValidators('is', temp);
+    //We want to make aliases of these methods, that ignores the first argument
+    var methods = extractMethods('is', temp);
+    var isLibMethodsKeyed = {};
+    var isLibFunc = function(obj, val){
+        //We define outside the loop because of the way that the scope works
+        return isLibMethodsKeyed[obj.validator](val);
+    };
+    for (var x = 0; x < methods.length; x++){
+        //set isLibMethodsKeyed so we can access it within isLibFunc
+        isLibMethodsKeyed[methods[x].key] = methods[x].value;
+        propertyobject.addValidator(methods[x].key, isLibFunc);
+    }
+    delete methods;
 })();
 
 /**
@@ -152,7 +165,7 @@ Adds the default displays.
 /**
 PropertyObject definition, as per readme spec.
 */
-propertyobject.PropertyObject = function(){
+propertyobject.PropertyObject = function(serialized){
     Object.defineProperty(this, 'key', {
         enumerable: false,
         configurable: false,
@@ -174,7 +187,36 @@ propertyobject.PropertyObject = function(){
             }
         }
     });
-    
+    var validatorValue = propertyobject.validators.DEFAULT;
+    Object.defineProperty(this, 'validator', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return validatorValue;
+        },
+        set: function(value){
+            //value must be in propertyobject.validators
+            if (!propertyobject.validators.hasOwnProperty(value)){
+                throw new Error('The validator key does not exist :'+value);
+            }
+            validatorValue = value;
+        }
+    });
+    var valueValue = null;
+    Object.defineProperty(this, 'value', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return valueValue;
+        },
+        set: function(value){
+            //we must validate, else throw error
+            if (!(_validatorMethods[this.validator])(this, value)){
+                throw new Error('Your value failed to validate: '+value);
+            }
+            valueValue = value;
+        }.bind(this)
+    });
 };
 
 /*
