@@ -65,27 +65,39 @@ PropertyLogItem:
 The property key can be set to any value, and isn't used internally. It should instead be
 used as an identifier externally, or for logging purposes.
 
+Default: null
+
 ### editable
 The property editable can be set with a boolean value, indicating if the value can be changed.
 If editable is false, then setting value will fail with an exception. The editable flag controls
 all of the properties except editable; setting any of the values while editable is false 
 will throw a new Error.
 
+Default: false
+
 ### value
 The property value can be get and set, and is validated as part of the set process. The type of
 validator depends on the value of the validator field.
+
+Default: null
 
 ### validator
 The property validator is a key, indicating the type of validator that is used for the value field.
 The valid types are explained further down.
 
+Default: 'DEFAULT' (propertyobject.validators.DEFAULT)
+
 ### display
 The property display is a key, indicating the type of display that can be used. The valid types
 are explained further down. runDisplay() will run the method associated with the display string.
 
+Default: 'DEFAULT' (propertyobject.displays.DEFAULT)
+
 ### logs
 The logs property is an array of log items for this PropertyObject. New log items can be added
 by calling PropertyObject.log('message goes here'). The logs property is immutable by direct access.
+
+Default: []
 
 ### log(message)
 Log a new message to logs.
