@@ -14,16 +14,27 @@ describe('propertyobject', function(){
         it('should have is.array', function(){
             assert(propertyobject.validators['is.array'] === 'is.array');
         });
+        it('shouldnt have is.setRegexp', function(){
+            assert(!propertyobject.validators.hasOwnProperty('is.setRegexp'));
+        });
+        it('shouldnt have is.setNamespace', function(){
+            assert(!propertyobject.validators.hasOwnProperty('is.setNamespace'));
+        });
         it('shouldnt allow setting directly', function(){
-            try {
-                propertyobject.validators = {};
-                assert(false);
-            } catch (e){
-                assert(true);
-            }
+            propertyobject.validators = null;
+            assert(propertyobject.validators !== null);
         });
     });
     describe('displays', function(){
-        
+        it('should be init', function(){
+            assert(propertyobject.displays != null);
+        });
+        it('should have DEFAULT', function(){
+            assert(propertyobject.displays.DEFAULT === 'DEFAULT');
+        });
+        it('shouldnt allow setting directly', function(){
+            propertyobject.displays = null;
+            assert(propertyobject.displays !== null);
+        });
     });
 });
