@@ -294,3 +294,23 @@ function extractMethods(prefix, input){
     return result;
 }
 
+/**
+Make a deep copy of an array, object, or string.
+*/
+function deepCopy(obj) {
+    var result = obj;
+    if (is.object(obj)) {
+        result = {};
+        for (var k in obj) {
+            if (obj.hasOwnProperty(k))
+                result[k] = deepCopy(obj[k]);
+        }
+    } else if (is.array(obj)) {
+        result = [];
+        for (var x = 0; x < obj.length; x++)
+            result.push(deepCopy(obj[x]));
+    } else if (is.string(obj)){
+        result = (' ' + obj).slice(1);
+    }
+    return result;
+};
