@@ -67,7 +67,9 @@ used as an identifier externally, or for logging purposes.
 
 ### editable
 The property editable can be set with a boolean value, indicating if the value can be changed.
-If editable is false, then setting value will fail with an exception.
+If editable is false, then setting value will fail with an exception. The editable flag controls
+all of the properties except editable; setting any of the values while editable is false 
+will throw a new Error.
 
 ### value
 The property value can be get and set, and is validated as part of the set process. The type of
