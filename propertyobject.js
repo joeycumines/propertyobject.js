@@ -254,6 +254,18 @@ propertyobject.PropertyObject = function(serialized){
             displayValue = value;
         }
     });
+    
+    var logsValue = [];
+    Object.defineProperty(this, 'logs', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return logsValue;
+        },
+        set: function(value){
+            throw new Error('You cannot set the logs directly, use PropertyObject.log(message).');
+        }
+    });
 };
 
 /*
