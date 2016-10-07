@@ -84,6 +84,7 @@ Adds the default validators.
     var isLibMethodsKeyed = {};
     var isLibFunc = function(obj, val){
         //We define outside the loop because of the way that the scope works
+        //obj.validator is guarenteed to contain a valid value.
         return isLibMethodsKeyed[obj.validator](val);
     };
     for (var x = 0; x < methods.length; x++){
@@ -166,12 +167,14 @@ Adds the default displays.
 PropertyObject definition, as per readme spec.
 */
 propertyobject.PropertyObject = function(serialized){
-    Object.defineProperty(this, 'key', {
-        enumerable: false,
-        configurable: false,
-        writable: true,
-        value: null
-    });
+    /**
+        Helper function that isnt exposed.
+    */
+    var errorIfNotEditable = function(){
+        if (!this.editable)
+            throw new Error('The editable flag is false, error attempting to edit.');
+    }.bind(this);
+    
     var editableValue = false;
     Object.defineProperty(this, 'editable', {
         enumerable: false,
@@ -187,6 +190,20 @@ propertyobject.PropertyObject = function(serialized){
             }
         }
     });
+    
+    var keyValue = null;
+    Object.defineProperty(this, 'key', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return keyValue;
+        },
+        set: function(value){
+            errorIfNotEditable();
+            keyValue = value;
+        }
+    });
+    
     var validatorValue = propertyobject.validators.DEFAULT;
     Object.defineProperty(this, 'validator', {
         enumerable: false,
@@ -195,6 +212,7 @@ propertyobject.PropertyObject = function(serialized){
             return validatorValue;
         },
         set: function(value){
+            errorIfNotEditable();
             //value must be in propertyobject.validators
             if (!propertyobject.validators.hasOwnProperty(value)){
                 throw new Error('The validator key does not exist :'+value);
@@ -202,6 +220,7 @@ propertyobject.PropertyObject = function(serialized){
             validatorValue = value;
         }
     });
+    
     var valueValue = null;
     Object.defineProperty(this, 'value', {
         enumerable: false,
@@ -210,6 +229,7 @@ propertyobject.PropertyObject = function(serialized){
             return valueValue;
         },
         set: function(value){
+            errorIfNotEditable();
             //we must validate, else throw error
             if (!(_validatorMethods[this.validator])(this, value)){
                 throw new Error('Your value failed to validate: '+value);
