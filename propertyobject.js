@@ -180,7 +180,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return editableValue;
+            return deepCopy(editableValue);
         },
         set: function(value){
             if (is.boolean(value)){
@@ -196,7 +196,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return keyValue;
+            return deepCopy(keyValue);
         },
         set: function(value){
             errorIfNotEditable();
@@ -209,7 +209,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return validatorValue;
+            return deepCopy(validatorValue);
         },
         set: function(value){
             errorIfNotEditable();
@@ -226,7 +226,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return valueValue;
+            return deepCopy(valueValue);
         },
         set: function(value){
             errorIfNotEditable();
@@ -243,7 +243,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return displayValue;
+            return deepCopy(displayValue);
         },
         set: function(value){
             errorIfNotEditable();
@@ -260,7 +260,7 @@ propertyobject.PropertyObject = function(serialized){
         enumerable: false,
         configurable: false,
         get: function(){
-            return logsValue;
+            return deepCopy(logsValue);
         },
         set: function(value){
             throw new Error('You cannot set the logs directly, use PropertyObject.log(message).');
