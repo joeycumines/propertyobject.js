@@ -30,8 +30,12 @@ propertyobject.addValidator = function(name, method){
     if (is.not.function(method))
         throw new Error('The given method was not a function: '+method);
     //Add to _validators and _validatorMethods
-    _validators[name] = name;
-    _validatorMethods[name] = method;
+    Object.defineProperty(_validators, name, {
+        value: name
+    });
+    Object.defineProperty(_validatorMethods, name, {
+        value: method
+    });
 };
 
 /**
@@ -95,8 +99,12 @@ propertyobject.addDisplay = function(name, method){
     if (is.not.function(method))
         throw new Error('The given method was not a function: '+method);
     //Add to _displays and _displayMethods
-    _displays[name] = name;
-    _displayMethods[name] = method;
+    Object.defineProperty(_displays, name, {
+        value: name
+    });
+    Object.defineProperty(_displayMethods, name, {
+        value: method
+    });
 };
 
 /**
@@ -124,6 +132,12 @@ Adds the default displays.
         return prop.serialize();
     });
 })();
+
+
+/**
+PropertyObject definition, as per readme spec.
+*/
+
 
 /*
 -----------------------------------------------------------------
