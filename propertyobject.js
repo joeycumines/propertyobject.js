@@ -26,7 +26,7 @@ Add a new validator.
 Throws a error if the name is not valid or the method isnt one.
 */
 propertyobject.addValidator = function(name, method){
-    if (is.not.string(name) || name == '')
+    if (is.not.string(name) || name === '')
         throw new Error('Invalid name for validator: '+name);
     if (_validators.hasOwnProperty(name))
         throw new Error('The given validator name already exists: '+name);
@@ -91,7 +91,7 @@ Adds the default validators.
         isLibMethodsKeyed[methods[x].key] = methods[x].value;
         propertyobject.addValidator(methods[x].key, isLibFunc);
     }
-    delete methods;
+    methods = null;
 })();
 
 /**
@@ -114,7 +114,7 @@ Add a new display.
 Throws a error if the name is not valid or the method isnt one.
 */
 propertyobject.addDisplay = function(name, method){
-    if (is.not.string(name) || name == '')
+    if (is.not.string(name) || name === '')
         throw new Error('Invalid name for display: '+name);
     if (_displays.hasOwnProperty(name))
         throw new Error('The given display name already exists: '+name);
