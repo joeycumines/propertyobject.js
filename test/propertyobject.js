@@ -307,7 +307,42 @@ describe('propertyobject', function(){
             });
         });
         describe('display', function(){
-            
+            it('should default to DEFAULT', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                assert.strictEqual(prop.display, propertyobject.displays.DEFAULT);
+            });
+            it('should allow us to set it to GET_KEY_STRING', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.display = propertyobject.displays.GET_KEY_STRING;
+                assert.strictEqual(prop.display, propertyobject.displays.GET_KEY_STRING);
+            });
+            it('should fail on non existant display value', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                var did = null;
+                try {
+                    prop.display = 'This display does not exist';
+                    did = false;
+                } catch (e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                assert.strictEqual(prop.display, propertyobject.displays.DEFAULT);
+            });
+            it('should fail if set to not editable', function(){
+                var prop = new propertyobject.PropertyObject();
+                var did = null;
+                try {
+                    prop.display = propertyobject.displays.DEFAULT;
+                    did = false;
+                } catch(e){
+                    did = true;
+                }
+                assert.strictEqual(did, true);
+                assert.strictEqual(prop.value, null);
+            });
         });
     });
 });
