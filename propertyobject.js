@@ -215,7 +215,7 @@ propertyobject.PropertyObject = function(serialized){
             errorIfNotEditable();
             //value must be in propertyobject.validators
             if (!propertyobject.validators.hasOwnProperty(value)){
-                throw new Error('The validator key does not exist :'+value);
+                throw new Error('The validator key does not exist: '+value);
             }
             validatorValue = value;
         }
@@ -236,6 +236,23 @@ propertyobject.PropertyObject = function(serialized){
             }
             valueValue = value;
         }.bind(this)
+    });
+    
+    var displayValue = propertyobject.displays.DEFAULT;
+    Object.defineProperty(this, 'display', {
+        enumerable: false,
+        configurable: false,
+        get: function(){
+            return displayValue;
+        },
+        set: function(value){
+            errorIfNotEditable();
+            //value must be in propertyobject.displays
+            if (!propertyobject.displays.hasOwnProperty(value)){
+                throw new Error('The display key does not exist: '+value);
+            }
+            displayValue = value;
+        }
     });
 };
 
