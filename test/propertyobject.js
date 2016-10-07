@@ -139,6 +139,20 @@ describe('propertyobject', function(){
                 assert.strictEqual(did, true);
                 assert.strictEqual(prop.key, null);
             });
+            it('shouldnt be indirectly editable as a object', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.key = {'value': 1};
+                prop.key.value = 5;
+                assert.strictEqual(prop.key.value, 1);
+            });
+            it('shouldnt be indirectly editable as a array', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.key = [1];
+                prop.key[0] = 5;
+                assert.strictEqual(prop.key[0], 1);
+            });
         });
         describe('editable', function(){
             it('should be false by default', function(){
@@ -304,6 +318,20 @@ describe('propertyobject', function(){
                 }
                 assert.strictEqual(did, true);
                 assert.strictEqual(prop.value, null);
+            });
+            it('shouldnt be indirectly editable as a object', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.value = {'value': 1};
+                prop.value.value = 5;
+                assert.strictEqual(prop.value.value, 1);
+            });
+            it('shouldnt be indirectly editable as a array', function(){
+                var prop = new propertyobject.PropertyObject();
+                prop.editable = true;
+                prop.value = [1];
+                prop.value[0] = 5;
+                assert.strictEqual(prop.value[0], 1);
             });
         });
         describe('display', function(){
