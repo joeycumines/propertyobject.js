@@ -285,7 +285,15 @@ propertyobject.PropertyObject = function(serialized){
 /**
     Serialize the object.
 */
-
+propertyobject.PropertyObject.prototype.serialize = function(){
+    var result = {};
+    result.key = this.key;
+    result.value = this.value;
+    result.validator = this.validator;
+    result.editable = this.editable;
+    result.display = this.display;
+    result.logs = this.logs;
+};
 
 
 /*
