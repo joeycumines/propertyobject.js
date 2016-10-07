@@ -293,6 +293,7 @@ propertyobject.PropertyObject.prototype.serialize = function(){
     result.editable = this.editable;
     result.display = this.display;
     result.logs = this.logs;
+    return result;
 };
 
 
