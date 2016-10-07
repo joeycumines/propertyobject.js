@@ -335,6 +335,12 @@ toString override, JSON.stringify(this.serialize()).
 propertyobject.PropertyObject.prototype.toString = function(){
     return JSON.stringify(this.serialize());
 };
+/**
+Return the result from the display method.
+*/
+propertyobject.PropertyObject.prototype.runDisplay = function(){
+    return _displayMethods[this.display](this);
+};
 
 
 /*
