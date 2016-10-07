@@ -112,7 +112,7 @@ var prop = new propertyobject.PropertyObject(serializedObjectFromDatabase());
 ```
 
 ## Using validator and display
-Validation and display are keys that refer to methods that are part of the library, or loaded in. They will
+Validator and display are keys that refer to methods that are part of the library, or loaded in. They will
 throw a new Error if you attempt to set them to a key that doesnt exist.
 
 ### Default validators
@@ -153,7 +153,7 @@ prop.display = propertyobject.displays.DEFAULT;
 //Write out here
 ```
 
-## Creating new validators using addValidation()
+## Creating new validators using addValidator()
 Validators must be functions that take two parameters, the PropertyObject, and the new value.
 The result returned must be true or false.
 
@@ -161,7 +161,7 @@ Example:
 ```
 var propertyobject = require('propertyobject');
 
-propertyobject.addValidation('IS_INCREMENTED_BY_ONE', function(obj, val){
+propertyobject.addValidator('IS_INCREMENTED_BY_ONE', function(obj, val){
     if (obj.value + 1 === val)
         return true;
     return false;
