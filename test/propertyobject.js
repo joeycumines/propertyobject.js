@@ -129,6 +129,7 @@ describe('propertyobject', function(){
             });
             it('should fail to set if not editable', function(){
                 var prop = new propertyobject.PropertyObject();
+                prop.editable = false;
                 var did = null;
                 try {
                     prop.key = 'test val';
@@ -155,22 +156,22 @@ describe('propertyobject', function(){
             });
         });
         describe('editable', function(){
-            it('should be false by default', function(){
+            it('should be true by default', function(){
                 var prop = new propertyobject.PropertyObject();
                 assert.strictEqual(true, prop.hasOwnProperty('editable'));
-                assert.strictEqual(prop.editable, false);
+                assert.strictEqual(prop.editable, true);
             });
-            it('should fail with exception when set to 1', function(){
+            it('should fail with exception when set to 0', function(){
                 var prop = new propertyobject.PropertyObject();
                 var did = null;
                 try {
-                    prop.editable = 1;
+                    prop.editable = 0;
                     did = false;
                 } catch (e){
                     did = true;
                 }
-                assert.strictEqual(true, did);
-                assert.strictEqual(prop.editable, false);
+                assert.strictEqual(did, true);
+                assert.strictEqual(prop.editable, true);
             });
             it('should be able to be set to true then to false', function(){
                 var prop = new propertyobject.PropertyObject();
@@ -272,6 +273,7 @@ describe('propertyobject', function(){
             });
             it('should fail to set if not editable', function(){
                 var prop = new propertyobject.PropertyObject();
+                prop.editable = false;
                 var did = null;
                 try {
                     prop.validator = propertyobject.validators.DEFAULT;
@@ -309,6 +311,7 @@ describe('propertyobject', function(){
             });
             it('should fail to set if not editable', function(){
                 var prop = new propertyobject.PropertyObject();
+                prop.editable = false;
                 var did = null;
                 try {
                     prop.value = 'a test value';
@@ -361,6 +364,7 @@ describe('propertyobject', function(){
             });
             it('should fail if set to not editable', function(){
                 var prop = new propertyobject.PropertyObject();
+                prop.editable = false;
                 var did = null;
                 try {
                     prop.display = propertyobject.displays.DEFAULT;
@@ -485,7 +489,7 @@ describe('propertyobject', function(){
                     assert.strictEqual(obj.display, 'DEFAULT');
                     assert(is.array(obj.logs));
                     assert.strictEqual(obj.logs.length, 0);
-                    assert.strictEqual(obj.editable, false);
+                    assert.strictEqual(obj.editable, true);
                 };
                 
                 var prop = new propertyobject.PropertyObject();

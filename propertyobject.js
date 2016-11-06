@@ -175,7 +175,7 @@ propertyobject.PropertyObject = function(serialized){
             throw new Error('The editable flag is false, error attempting to edit.');
     }.bind(this);
     
-    var editableValue = false;
+    var editableValue = true;
     Object.defineProperty(this, 'editable', {
         enumerable: false,
         configurable: false,
