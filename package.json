@@ -1,6 +1,6 @@
 {
   "name": "propertyobject",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Boilerplate js framework for mutable options with logged state changes and validated values.",
   "main": "propertyobject.js",
   "scripts": {
