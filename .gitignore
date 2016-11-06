@@ -49,3 +49,6 @@ Temporary Items
 # Node modules folder
 /node_modules/
 /node_modules/*
+
+/.idea/
+/.idea/*
